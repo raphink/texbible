@@ -42,12 +42,12 @@
 \newcommand\bversion{FreMartin}
 
 % Romans 3 32
-\def\bref{}
+\newcommand\bref{}
 \makeatletter
 \newcommand\bverse[3]{%
-  \ifthenelse{\equal{#3}{1}}{}{ \vsep \marginpar{\footnotesize #3}}
+  \ifthenelse{\equal{#3}{1}}{}{\vsep\marginpar{\footnotesize #3}}
   \ifthenelse{\equal{#3}{70}}{\FloatBarrier}{}
-  \def\bref{\protect\bibleverse{#1}(#2:#3)}
+  \renewcommand\bref{\protect\bibleverse{#1}(#2:#3)}
   \extramark{bref}
 }
 \makeatother

@@ -46,10 +46,11 @@
 \makeatletter
 \newcommand\bverse[3]{%
   %\ifthenelse{\equal{#3}{1}}{}{\vsep\marginpar{\footnotesize #3}}
-  \ifthenelse{\equal{#3}{1}}{}{\up{\footnotesize #3}}
+  \ifthenelse{\equal{#3}{1}}{}{\up{\footnotesize #3}}%
   %\ifthenelse{\equal{#3}{70}}{\FloatBarrier}{}
-  \renewcommand\bref{\protect\bibleverse{#1}(#2:#3)}
-  \extramark{bref}
+  \renewcommand\bref{\protect\bibleverse{#1}(#2:#3)}%
+  \extramark{bref}%
+  \nolinebreak
 }
 \makeatother
 

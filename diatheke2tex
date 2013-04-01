@@ -10,6 +10,7 @@ output.split("\n").each do |l|
     book, chapter, verse, text = $1, $2, $3, $4
     book.gsub!(/\s*/, '')
     book = 'Revelation' if book =~ /Revelation/
+    book = 'SongofSongs' if book =~ /Song/
     if verse == '1'
       puts "\\bchapter{#{book}}{#{chapter}}"
     end

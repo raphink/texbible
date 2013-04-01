@@ -1,7 +1,7 @@
 \ProvidesPackage{bible}
 % Required for marginpar verse references
-\usepackage{placeins}
-\usepackage[maxfloats=145]{morefloats}
+%\usepackage{placeins}
+%\usepackage[maxfloats=145]{morefloats}
 
 \usepackage[french]{babel}
 \usepackage[protrusion=true,final]{microtype}
@@ -45,8 +45,9 @@
 \newcommand\bref{}
 \makeatletter
 \newcommand\bverse[3]{%
-  \ifthenelse{\equal{#3}{1}}{}{\vsep\marginpar{\footnotesize #3}}
-  \ifthenelse{\equal{#3}{70}}{\FloatBarrier}{}
+  %\ifthenelse{\equal{#3}{1}}{}{\vsep\marginpar{\footnotesize #3}}
+  \ifthenelse{\equal{#3}{1}}{}{\up{\footnotesize #3}}
+  %\ifthenelse{\equal{#3}{70}}{\FloatBarrier}{}
   \renewcommand\bref{\protect\bibleverse{#1}(#2:#3)}
   \extramark{bref}
 }
@@ -54,7 +55,7 @@
 
 % Romans 3 32
 \newcommand\bchapter[2]{
-  \FloatBarrier
+  %\FloatBarrier
   \lettrine{\liningnums{#2}}{}
 }
 
@@ -65,21 +66,24 @@
   \endgroup
 }
 
+\usepackage{multicol}
 \newcommand\bbook[1]{%
-  \chapter{\protect\bbooktitle{#1}}
   \immediate\write18{LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 ./diatheke2tex "#1" "\bversion" > "\jobname.out.diatheke"}
-  \input{\jobname.out.diatheke}
+  \section{\protect\bbooktitle{#1}}
+  \begin{multicols}{2}
+    \input{\jobname.out.diatheke}
+  \end{multicols}
 }
 
 % Adjust headings
 \usepackage{titlesec}
 \usepackage[extramarks]{titleps}
-\newfontfamily\chapheadfont{EB Garamond}
-\newcommand{\chapheadstyle}{\centering\chapheadfont\Huge\textsc}
-\titleformat{\chapter}[display]
+\newfontfamily\bbookheadfont{EB Garamond}
+\newcommand{\bbookheadstyle}{\centering\bbookheadfont\LARGE\textsc}
+\titleformat{\section}[display]
   {}
   {}{0pt}
-  {\chapheadstyle}
+  {\bbookheadstyle}
 
 % http://tex.stackexchange.com/questions/26392/titlesec-toptitlemarks-and-bottitlemarks-broken-when-section-not-called-explic
 % could also be interesting

@@ -1,0 +1,96 @@
+\ProvidesPackage{bible}
+% Required for marginpar verse references
+\usepackage{placeins}
+\usepackage[maxfloats=130]{morefloats}
+
+\usepackage[french]{babel}
+\usepackage[protrusion=true,final]{microtype}
+\usepackage[newcommands]{ragged2e}
+
+% For references
+\usepackage{bibleref-french}
+\biblerefstyle{colombefull}
+%\biblerefstyle{text}
+
+% fonts
+\usepackage{fontspec}
+\usepackage{xunicode}
+\defaultfontfeatures{Ligatures=TeX}
+\setmainfont{EB Garamond}
+
+\usepackage{pgffor}
+\usepackage{ifthen}
+\usepackage{lettrine}
+\usepackage[all]{nowidow}
+
+\usepackage{trimspaces}
+
+% Balance twocolumn
+\usepackage{balance}
+
+\setlength\marginparsep{8pt}
+\setlength\marginparwidth{8pt}
+
+% Only put a sep if not at the beginning of a line
+\newcommand{\vsep}{\unskip%
+  \cleaders\copy\vsepbox\hskip\wd\vsepbox%
+  \ignorespaces}
+\newsavebox\vsepbox
+\sbox\vsepbox{\,\vrule width 0.5px height 5px\,}
+%\sbox\vsepbox{|}
+
+\newcommand\bversion{FreMartin}
+
+% Romans 3 32
+\def\bref{}
+\makeatletter
+\newcommand\bverse[3]{%
+  \ifthenelse{\equal{#3}{1}}{}{\vsep\marginpar{\footnotesize #3}}
+  \ifthenelse{\equal{#3}{60}}{\FloatBarrier}{}
+  \def\bref{\protect\bibleverse{#1}(#2:#3)}
+  \extramark{bref}
+}
+\makeatother
+
+% Romans 3 32
+\newcommand\bchapter[2]{
+  \FloatBarrier
+  \lettrine{\liningnums{#2}}{}
+}
+
+\newcommand\bbooktitle[1]{%
+  \begingroup
+  \biblerefstyle{text}
+  \bibleverse{#1}
+  \endgroup
+}
+
+\newcommand\bbook[1]{%
+  \chapter{\protect\bbooktitle{#1}}
+  \immediate\write18{LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 ./diatheke2tex "#1" "\bversion" > "\jobname.out.diatheke"}
+  \input{\jobname.out.diatheke}
+}
+
+% Adjust headings
+\usepackage{titlesec}
+\usepackage[extramarks]{titleps}
+\newfontfamily\chapheadfont{EB Garamond}
+\newcommand{\chapheadstyle}{\centering\chapheadfont\Huge\textsc}
+\titleformat{\chapter}[display]
+  {}
+  {}{0pt}
+  {\chapheadstyle}
+
+% http://tex.stackexchange.com/questions/26392/titlesec-toptitlemarks-and-bottitlemarks-broken-when-section-not-called-explic
+% could also be interesting
+
+\newcommand*{\cadr}{\nobreak\,\nobreak\mbox{---}\nobreak\,\nobreak}
+\newmarkset{bref}
+\newextramark{bref}{\bref}
+\newpagestyle{Biblestyle}{
+  \setheadrule{.009pt}
+  \sethead[\thepage][\textsc{\topextramarks{bref}\bref\cadr\botextramarks{bref}\bref}]
+  []{}{\textsc{\topextramarks{bref}\bref\cadr\botextramarks{bref}\bref}}{\thepage}
+}
+\pagestyle{Biblestyle}
+

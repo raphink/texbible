@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+
+ref = ARGV[0]
+version = ARGV[1]
+
+output = %x( diatheke -b "#{version}" -k "#{ref}" )
+
+output.split("\n").each do |l|
+  if l =~ /^\s*([^\d]+[^\d\s])\s*(\d+):(\d+):\s+(.*)\s*$/
+    book, chapter, verse, text = $1, $2, $3, $4
+    book.gsub!(/\s*/, '')
+    book = 'Revelation' if book =~ /Revelation/
+    if verse == '1'
+      puts "\\bchapter{#{book}}{#{chapter}}"
+    end
+    puts "\\bverse{#{book}}{#{chapter}}{#{verse}}#{text}"
+  end
+end

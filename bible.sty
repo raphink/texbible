@@ -16,12 +16,14 @@
 \usepackage{fontspec}
 \usepackage{xunicode}
 \defaultfontfeatures{Ligatures=TeX}
-\setmainfont{EB Garamond}
+\setmainfont{Linux Libertine O}
 
 \usepackage{pgffor}
 \usepackage{ifthen}
 \usepackage{lettrine}
 \usepackage[all]{nowidow}
+
+\renewcommand\LettrineFontHook{\bfseries}
 
 \usepackage{trimspaces}
 
@@ -79,7 +81,7 @@
 % Adjust headings
 \usepackage{titlesec}
 \usepackage[extramarks]{titleps}
-\newfontfamily\bbookheadfont{EB Garamond}
+\newfontfamily\bbookheadfont{Linux Libertine O}
 \newcommand{\bbookheadstyle}{\centering\bbookheadfont\LARGE\textsc}
 \titleformat{\section}[display]
   {}

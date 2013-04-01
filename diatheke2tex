@@ -3,6 +3,8 @@
 ref = ARGV[0]
 version = ARGV[1]
 
+ref = "Song of Songs" if ref == 'Sg'
+
 output = %x( diatheke -b "#{version}" -k "#{ref}" )
 
 output.split("\n").each do |l|
